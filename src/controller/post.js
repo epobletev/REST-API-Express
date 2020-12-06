@@ -57,8 +57,8 @@ exports.modifyPost = async(req,res) =>{
 exports.deletePost = async(req,res) =>{
     try{
         const {id} = req.params;
-        const deletePost = await pool.query("DELETE FROM post WHERE post_id = $1",[id]);
-        return res.send('Post Eliminado!')
+        const deletePost = await pool.query("DELETE FROM post WHERE post_id = $1 RETURNING *",[id]);
+        return res.send(deletePost.rows[0])
     }
     catch(err){
         console.log(err.message);
